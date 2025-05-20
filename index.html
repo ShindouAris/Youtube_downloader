@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube Downloader</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-card">
+            <div class="app-header">
+                <div class="settings-button" id="settings-btn" title="Advanced Settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </div>
+                <div class="logo-container">
+                    <div class="logo">
+                        <img src="icon.png" alt="YouTube Downloader" style="width: 64px; height: 64px; border-radius: 15%;" />
+                    </div>
+                    <h1>YouTube Downloader</h1>
+                </div>
+                <p class="tagline">Download videos and audio with ease</p>
+            </div>
+            
+            <div class="form-container">
+                <div class="input-group">
+                    <label for="youtubeUrl">Video URL</label>
+                    <div class="url-input-container">
+                        <input 
+                            type="text" 
+                            id="youtubeUrl" 
+                            placeholder="Paste YouTube URL here"
+                            autocomplete="off"
+                        >
+                        <button id="paste-btn" class="icon-button" title="Paste from clipboard">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                            </svg>
+                        </button>
+                        <button id="clear-btn" class="icon-button" title="Clear input">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="formatOption">Format</label>
+                    <div class="select-wrapper">
+                        <select id="formatOption">
+                            <option value="bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4">Best MP4 (Video+Audio)</option>
+                            <option value="bestaudio[ext=m4a]/bestaudio">Best Audio (M4A)</option>
+                            <option value="bestaudio[ext=mp3]/bestaudio">Best Audio (MP3)</option>
+                            <option value="best">Best Available Format</option>
+                        </select>
+                        <div class="select-arrow"></div>
+                    </div>
+                </div>
+                
+                <button id="download-btn" class="primary-button">
+                    <span id="button-text">Download</span>
+                    <div class="button-loader"></div>
+                </button>
+            </div>
+            
+            <div id="status" class="status-container hidden">
+                <!-- Status content will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <footer>
+            <p>Powered by YT-DLP • Made with ❤️</p>
+            <div class="footer-buttons">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Advanced Settings</h2>
+                <button class="close-button" id="close-settings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label for="backendUrl">Backend URL</label>
+                    <input 
+                        type="text" 
+                        id="backendUrl" 
+                        placeholder="http://localhost:3000"
+                        value="http://localhost:3000"
+                    >
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-button" id="cancel-settings">Cancel</button>
+                <button class="primary-button" id="save-settings">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
