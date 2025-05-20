@@ -126,7 +126,17 @@ function showSuccessStatus(result) {
     <a href="#" onclick="openDownloadTab('${full_url}')" class="download-link">
       Save to device
     </a>
-    <button onclick="resetAll()" id="reset-btn">Download Another Video</button>
+    <br/>
+    <button onclick="resetAll()" id="reset-btn" style="display: inline-block;
+                                                      margin-top: var(--space-3);
+                                                      padding: var(--space-2) var(--space-4);
+                                                      background-color: var(--color-primary);
+                                                      color: white;
+                                                      border-radius: var(--radius-md);
+                                                      text-decoration: none;
+                                                      font-weight: 500;
+                                                      transition: background-color var(--transition-fast);">
+    Download Another Video</button>
   `;
   }
 
