@@ -2,31 +2,107 @@
  * Handles the download functionality
  */
 export function setupDownloader() {
-  const downloadBtn = document.getElementById('download-btn');
+  const startbtn = document.getElementById('start-btn');
   const urlInput = document.getElementById('youtubeUrl');
-  const formatSelect = document.getElementById('formatOption');
   
-  downloadBtn.addEventListener('click', async () => {
+  startbtn.addEventListener('click', async () => {
     const url = urlInput.value.trim();
-    const format = formatSelect.value;
     
     if (!url) {
       showStatus('error', 'Error', 'Please enter a valid YouTube URL');
       return;
     }
-    
-    await startDownload(url, format);
+    await fetch_for_format(url);
+  });
+
+}
+
+let URL = ``
+
+function getYouTubeThumbnailUrl(youtubeUrl) {
+  const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/;
+  const match = youtubeUrl.match(regex);
+  if (match && match[1]) {
+    const videoId = match[1];
+    return `https://i.ytimg.com/vi/${videoId}/0.jpg`;
+  } else {
+    return null; // Invalid YouTube URL
+  }
+}
+
+
+async function fetch_for_format(url) {
+  const startbtn = document.getElementById('start-btn');
+  startbtn.classList.add('loading');
+  const statusDiv = document.getElementById('status');
+  statusDiv.classList.add('hidden');
+
+
+  try {
+    URL = url
+    const img = getYouTubeThumbnailUrl(url);
+    const backendUrl = localStorage.getItem('backendUrl') || 'http://localhost:3000';
+    const response = await fetch(`${backendUrl}/get_all_format`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({url})
+    })
+    const result = await response.json();
+    if (response.ok) {
+      display_selection_and_download(result, img)
+    }
+    else {
+      showStatus('error', 'Something went wrong here...', result.detail)
+    }
+  }
+  catch (error) {
+    showStatus('error', "Get Data failed", error.message);
+    console.log(error);
+  }
+  finally {
+    startbtn.classList.remove('loading');
+  }
+
+}
+
+function display_selection_and_download(data, image) {
+  const format_selection = document.getElementById("select-format");
+  const startbtn = document.getElementById('start-btn');
+  startbtn.classList.add('hidden')
+  format_selection.innerHTML = `
+    <img src=${image} alt="Youtube cover image" />
+    <h5>${data.name}</h5>
+    <div class="input-group">
+      <label for="formatOption">Format</label>
+      <div class="select-wrapper">
+        <select id="formatOption">
+          ${data.formats.map(item => `<option value="${item.format}">${item.label}</option>`).join("")}
+        </select>
+        <div class="select-arrow"></div>
+      </div>
+    </div>
+    <button id="download-btn" class="primary-button"> 
+      <span id="download-button-text">Download</span>
+      <div class="button-loader"></div>
+    </button>
+  `;
+  const downloadBtn = document.getElementById('download-btn');
+  downloadBtn.addEventListener('click', async () => {
+    const formatSelect = document.getElementById('formatOption');
+    const format = formatSelect.value;
+
+    await startDownload(URL, format);
   });
 }
 
-/**
- * Starts the download process
- */
 async function startDownload(url, format) {
   const downloadBtn = document.getElementById('download-btn');
   const statusDiv = document.getElementById('status');
-  
-  // Update button state to loading
+  const startbtn = document.getElementById('start-btn');
+
+  startbtn.remove();
   downloadBtn.classList.add('loading');
   statusDiv.classList.add('hidden');
   
@@ -46,28 +122,17 @@ async function startDownload(url, format) {
       showSuccessStatus(result);
     } else {
       showErrorStatus(result);
+      resetAll()
     }
   } catch (error) {
     showStatus('error', 'Network Error', `Unable to connect to the server: ${error.message}`);
   } finally {
-    // Reset button state
     downloadBtn.classList.remove('loading');
   }
 }
 
 function resetAll() {
-  const statusCard = document.getElementById("status-card")
-  const urlInput = document.getElementById("youtubeUrl")
-
-  if (urlInput) {
-    urlInput.value = '';
-  }
-  if (statusCard) {
-    statusCard.innerHTML = '';
-  }
-  if (urlInput) {
-    urlInput.focus();
-  }
+  window.location.replace("/"); // TS should work (ref: https://stackoverflow.com/questions/503093/how-do-i-redirect-to-another-webpage)
 }
 window.resetAll = resetAll;
 
@@ -207,6 +272,9 @@ function showErrorStatus(result) {
  */
 function showStatus(type, title, message, customHTML = null) {
   const statusDiv = document.getElementById('status');
+  const format_selection = document.getElementById("select-format")
+
+  format_selection.innerHTML = ``;
   
   // Reset classes
   statusDiv.className = 'status-container';

@@ -51,25 +51,18 @@
                     </div>
                 </div>
                 
-                <div class="input-group">
-                    <label for="formatOption">Format</label>
-                    <div class="select-wrapper">
-                        <select id="formatOption">
-                            <option value="bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4">Best MP4 (Video+Audio)</option>
-                            <option value="bestaudio[ext=m4a]/bestaudio">Best Audio (M4A)</option>
-                            <option value="bestaudio[ext=mp3]/bestaudio">Best Audio (MP3)</option>
-                            <option value="best">Best Available Format</option>
-                        </select>
-                        <div class="select-arrow"></div>
-                    </div>
-                </div>
-                
-                <button id="download-btn" class="primary-button">
-                    <span id="button-text">Download</span>
+                <button id="start-btn" class="primary-button">
+                    <span id="start-button-text">Start</span>
                     <div class="button-loader"></div>
                 </button>
             </div>
-            
+            <div id="select-format" class="format-container hidden">
+                <button id="download-btn" class="download-btn-with-data" hidden="hidden">
+                    <span id="download-button-text">Download</span>
+                    <div class="button-loader"></div>
+                </button>
+            </div>
+
             <div id="status" class="status-container hidden">
                 <!-- Status content will be inserted here by JavaScript -->
             </div>

@@ -37,7 +37,7 @@ export function setupInputControls() {
 function validateInput() {
   const urlInput = document.getElementById('youtubeUrl');
   const clearBtn = document.getElementById('clear-btn');
-  const downloadBtn = document.getElementById('download-btn');
+  const startBtn = document.getElementById('start-btn');
   
   // Show/hide clear button based on input value
   if (urlInput.value.trim() === '') {
@@ -53,11 +53,11 @@ function validateInput() {
   
   // Update download button state
   if (isValidUrl) {
-    downloadBtn.disabled = false;
-    downloadBtn.style.opacity = '1';
+    startBtn.disabled = false;
+    startBtn.style.opacity = '1';
   } else {
-    downloadBtn.disabled = true;
-    downloadBtn.style.opacity = '0.7';
+    startBtn.disabled = true;
+    startBtn.style.opacity = '0.7';
   }
 }
 

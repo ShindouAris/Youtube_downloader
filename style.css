@@ -270,6 +270,7 @@ select {
 }
 
 /* Button */
+
 .primary-button {
   width: 100%;
   padding: var(--space-3) var(--space-4);
@@ -286,6 +287,29 @@ select {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.download-btn-with-data {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+  /*display: flex;*/
+  align-items: center;
+  justify-content: center;
+}
+.download-btn-with-data:hover {
+  background-color: var(--color-primary-light);
+}
+.download-btn-with-data:active {
+  transform: translateY(1px);
 }
 
 .primary-button:hover {
@@ -307,12 +331,24 @@ select {
   cursor: pointer;
   transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
+.download-btn.loading #download-button-text {
+  opacity: 0;
+}
+.download-btn.loading #start-button-text {
+  opacity: 0;
+}
+.download-btn.loading .button-loader {
+  opacity: 1;
+}
 
 .secondary-button:hover {
   background-color: var(--color-border);
 }
 
-.primary-button.loading #button-text {
+.primary-button.loading #download-button-text {
+  opacity: 0;
+}
+.primary-button.loading #start-button-text {
   opacity: 0;
 }
 
