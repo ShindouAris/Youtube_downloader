@@ -3,7 +3,7 @@ import { useSettings } from '../store/settings';
 
 function getBaseUrl(): string {
   const settings = useSettings.getState();
-  return settings.isCustomBackendEnabled ? settings.customBackendUrl : 'https://backend-yt-dlp.onrender.com';
+  return settings.isCustomBackendEnabled ? settings.customBackendUrl : 'https://arislab.june8th.us.eu.org';
 }
 
 export async function fetchVideoFormats(url: string): Promise<VideoFormats> {
