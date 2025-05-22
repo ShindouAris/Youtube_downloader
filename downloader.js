@@ -41,7 +41,7 @@ async function fetch_for_format(url) {
   try {
     URL = url
     const img = getYouTubeThumbnailUrl(url);
-    const backendUrl = localStorage.getItem('backendUrl') || 'http://localhost:3000';
+    const backendUrl = localStorage.getItem('backendUrl') || 'https://backend-yt-dlp.onrender.com';
     const response = await fetch(`${backendUrl}/get_all_format`, {
       method: 'POST',
       headers: {
@@ -107,7 +107,7 @@ async function startDownload(url, format) {
   statusDiv.classList.add('hidden');
   
   try {
-    const backendUrl = localStorage.getItem('backendUrl') || 'http://localhost:3000';
+    const backendUrl = localStorage.getItem('backendUrl') || 'https://backend-yt-dlp.onrender.com';
     const response = await fetch(`${backendUrl}/download`, {
       method: 'POST',
       headers: {
@@ -184,7 +184,7 @@ function showSuccessStatus(result) {
   `;
 
   if (download_link) {
-    const backend_url = localStorage.getItem('backendUrl') || 'http://localhost:3000';
+    const backend_url = localStorage.getItem('backendUrl') || 'https://backend-yt-dlp.onrender.com';
     const full_url = `${backend_url}${download_link}`;
 
     statusHTML += `
