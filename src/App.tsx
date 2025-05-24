@@ -114,11 +114,11 @@ function App() {
                 <Video className="h-6 w-6" />
               </div>
               <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-500">
-                YouTube Video Downloader
+                Youtube, Tiktok, Facebook, or Instagram Downloader
               </h1>
             </div>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Enter a YouTube URL, select your preferred format, and download videos quickly and easily.
+              Enter a Youtube, Tiktok, Facebook, or Instagram URL, select your preferred format, and download videos quickly and easily.
             </p>
           </div>
 
@@ -168,8 +168,8 @@ function App() {
           <footer className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
             <p>©2025 Kanatube 💙</p>
             <p className="mt-1">Copy right Kanatube - Running by ArisDev and ytdlp</p>
-
-            <div className="flex justify-center gap-4">
+            
+            <div className="flex justify-center gap-4 mt-4">
               <GitHubButton
                   repoUrl="https://github.com/ShindouAris/Youtube_downloader.git"
                   label="Frontend Repository"

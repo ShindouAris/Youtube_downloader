@@ -20,8 +20,22 @@ const HealthCheck: React.FC = () => {
         { name: 'SG Server', url: BackendUrls.SG, status: 'checking' }
     ]);
     const settings = useSettings.getState();
-    // const { isCustomBackendEnabled, customBackendUrl } = useSettings.getState();
 
+    // Update servers list when settings change
+    useEffect(() => {
+        const baseServers: ServerStatus[] = [
+            { name: 'US Server', url: BackendUrls.US, status: 'checking' },
+            { name: 'SG Server', url: BackendUrls.SG, status: 'checking' }
+        ];
+        
+        if (settings.isCustomBackendEnabled) {
+            setServers([...baseServers, { name: 'Custom Server', url: settings.customBackendUrl, status: 'checking' as const }]);
+        } else {
+            setServers(baseServers);
+        }
+    }, [settings.isCustomBackendEnabled, settings.customBackendUrl]);
+
+    // Check health status
     useEffect(() => {
         if (isOpen) {
             const checkHealth = async () => {
@@ -29,9 +43,9 @@ const HealthCheck: React.FC = () => {
                     servers.map(async (server) => {
                         try {
                             const response = await fetch(`${server.url}/`);
-                            return { ...server, status: response.ok ? 'online' : 'offline' };
+                            return { ...server, status: response.ok ? 'online' as const : 'offline' as const };
                         } catch {
-                            return { ...server, status: 'offline' };
+                            return { ...server, status: 'offline' as const };
                         }
                     })
                 );
@@ -39,21 +53,10 @@ const HealthCheck: React.FC = () => {
             };
 
             checkHealth();
-            const interval = setInterval(checkHealth, 30000);
+            const interval = setInterval(checkHealth, 3600000);
             return () => clearInterval(interval);
         }
-    }, [isOpen]);
-
-    useEffect(() => {
-        if (settings.isCustomBackendEnabled && isOpen) {
-            setServers(prev => {
-                const existing = prev.filter(s => s.url !== settings.customBackendUrl);
-                return [...existing, { name: 'Custom Server', url: settings.customBackendUrl, status: 'checking' }];
-            });
-        } else {
-            setServers(prev => prev.filter(s => s.url !== settings.customBackendUrl));
-        }
-    }, [settings.isCustomBackendEnabled, settings.customBackendUrl, isOpen]);
+    }, [isOpen, servers]);
 
     return (
         <div className="relative">

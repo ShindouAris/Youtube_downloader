@@ -13,7 +13,7 @@ interface SettingsState {
 export const useSettings = create<SettingsState>()(
   persist(
     (set) => ({
-      theme: 'light',
+      theme: 'dark',
       customBackendUrl: 'http://localhost:8080',
       isCustomBackendEnabled: false,
       setTheme: (theme) => set({ theme }),
